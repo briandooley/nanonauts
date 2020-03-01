@@ -5,33 +5,52 @@
 	</head>
 	<body>
 		<script>
+			// CONSTANTS
+			var CANVAS_WIDTH = 800;
+			var CANVAS_HEIGHT = 600;
+			var NANONAUT_WIDTH = 181;
+			var NANONAUT_HEIGHT = 229;
+			var GROUND_Y = 540;
 
+			// SETUP
 			var canvas = document.createElement('canvas');
-			canvas.width = 800;
-			canvas.height = 600;
+			var c = canvas.getContext('2d');
+			canvas.width = CANVAS_WIDTH;
+			canvas.height = CANVAS_HEIGHT;
 			document.body.appendChild(canvas);
 
-			var c = canvas.getContext('2d');
-			var x = 0;
-			var y = 40;
+			var nanonautImage = new Image();
+			nanonautImage.src = 'nanonaut.png';
 
-			var image = new Image();
-			image.src = 'nanonaut.png';
+			var nanonautx = 50;
+			var nanonauty = 40;
 
-			window.addEventListener('load', start)
-			
+			window.addEventListener('load', start);
+
 			function start() {
-				window.requestAnimationFrame(loop);
+				window.requestAnimationFrame(mainLoop);
 			}
-			
-			function loop() {
-				c.clearRect(0, 0, 800, 600);
-				c.drawImage(image, x, y);
-				x = x+1;
 
-				window.requestAnimationFrame(loop);
+			// MAIN LOOP
+			function mainLoop() {
+				update();
+				draw();
+				window.requestAnimationFrame(mainLoop);
 			}
-			
+
+			// PLAYER INPUT
+
+			// UPDATING
+			function update() {
+
+			}
+			// DRAWING
+			function draw() {	
+				c.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+				// Draw nanonaut.
+				c.drawImage(nanonautImage, nanonautx, nanonauty);
+			}
 		</script>
 	</body>
 </html>
