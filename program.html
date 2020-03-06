@@ -13,9 +13,11 @@
 			var GROUND_Y = 540;
 			var NANONAUT_Y_ACCELERATION = 1;
 			var SPACE_KEYCODE = 32;
+			var NANONAUT_JUMP_SPEED = 20;
 
 			// SETUP
 			var nanonautYSpeed = 0;
+			var nanonautIsInTheAir = false;
 			var spaceKeyIsPressed = false;
 			var canvas = document.createElement('canvas');
 			var c = canvas.getContext('2d');
@@ -33,6 +35,7 @@
 			var nanonautY = 40;
 
 			window.addEventListener('keydown', onKeyDown);
+			window.addEventListener('keyup', onKeyUp);
 
 			window.addEventListener('load', start);
 
@@ -53,16 +56,27 @@
 					spaceKeyIsPressed = true;
 				}
 			}
+			function onKeyUp(event) {
+				if (event.keyCode === SPACE_KEYCODE) {
+					spaceKeyIsPressed = false;
+				}
+			}
 
 			// UPDATING
 			function update() {
 				// update nanonaut
+				if (spaceKeyIsPressed && !nanonautIsInTheAir) {
+					nanonautYSpeed = -NANONAUT_JUMP_SPEED;
+					nanonautIsInTheAir = true;
+				}
+
 				nanonautY = nanonautY + nanonautYSpeed;
 				nanonautYSpeed = nanonautYSpeed + NANONAUT_Y_ACCELERATION;
 
 				if (nanonautY > (GROUND_Y - NANONAUT_HEIGHT)) {
 					nanonautY = GROUND_Y - NANONAUT_HEIGHT;
 					nanonautYSpeed = 0;
+					nanonautIsInTheAir = false;
 				}
 			}
 
