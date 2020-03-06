@@ -30,6 +30,8 @@
 			var nanonautX = 50;
 			var nanonautY = 40;
 
+			window.addEventListener('keydown', onKeyDown);
+
 			window.addEventListener('load', start);
 
 			function start() {
@@ -44,7 +46,10 @@
 			}
 
 			// PLAYER INPUT
-
+			function onKeyDown(event) {
+				console.log(event.keyCode);
+			}
+			
 			// UPDATING
 			function update() {
 				// update nanonaut
