@@ -12,9 +12,11 @@
 			var NANONAUT_HEIGHT = 229;
 			var GROUND_Y = 540;
 			var NANONAUT_Y_ACCELERATION = 1;
+			var SPACE_KEYCODE = 32;
 
 			// SETUP
 			var nanonautYSpeed = 0;
+			var spaceKeyIsPressed = false;
 			var canvas = document.createElement('canvas');
 			var c = canvas.getContext('2d');
 			canvas.width = CANVAS_WIDTH;
@@ -47,9 +49,11 @@
 
 			// PLAYER INPUT
 			function onKeyDown(event) {
-				console.log(event.keyCode);
+				if (event.keyCode === SPACE_KEYCODE) {
+					spaceKeyIsPressed = true;
+				}
 			}
-			
+
 			// UPDATING
 			function update() {
 				// update nanonaut
