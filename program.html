@@ -28,7 +28,7 @@
 			var cameraX = 0;
 			var cameraY = 0;
 			var gameFrameCounter = 0;
-			var bushXCoordinates = [550, 750, 1000, 1200];
+//			var bushXCoordinates = [550, 750, 1000, 1200];
 
 			var canvas = document.createElement('canvas');
 			var c = canvas.getContext('2d');
@@ -47,6 +47,10 @@
 
 			var bush1Image = new Image();
 			bush1Image.src = 'bush1.png';
+			var bush2Image = new Image();
+			bush2Image.src = 'bush2.png';
+
+			var bushData = [{ x: 550, y:100, image: bush1Image}, {x: 750, y: 90, image: bush2Image}];
 
 			window.addEventListener('keydown', onKeyDown);
 			window.addEventListener('keyup', onKeyUp);
@@ -130,11 +134,11 @@
 				c.fillStyle = 'ForestGreen';	
 				c.fillRect(0, GROUND_Y - 40, CANVAS_WIDTH, CANVAS_HEIGHT - GROUND_Y + 40);
 
-				// Draw bush
-				for (var i=0; i<bushXCoordinates.length; i++) {
-					c.drawImage(bush1Image, bushXCoordinates[i] - cameraX, GROUND_Y - 100 - cameraY);
+				// Draw bushes
+				for (var i=0; i<bushData.length; i++) {
+					c.drawImage(bushData[i].image, bushData[i].x - cameraX, GROUND_Y - bushData[i].y - cameraY);
 				}
-				
+
 //				c.drawImage(bush1Image, 550, GROUND_Y - 100);
 //				c.drawImage(bush1Image, 750, GROUND_Y - 90);
 
