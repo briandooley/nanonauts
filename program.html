@@ -18,6 +18,7 @@
 			var BACKGROUND_WIDTH = 1000;
 			var NANONAUT_NR_FRAMES_PER_ROW = 5;
 			var NANONAUT_NR_ANIMATION_FRAMES = 7;
+			var NANONAUT_ANIMATION_SPEED = 3;
 
 			// SETUP
 			var nanonautYSpeed = 0;
@@ -26,6 +27,7 @@
 			var nanonautFrameNr = 0;
 			var cameraX = 0;
 			var cameraY = 0;
+			var gameFrameCounter = 0;
 
 			var canvas = document.createElement('canvas');
 			var c = canvas.getContext('2d');
@@ -41,6 +43,9 @@
 
 			var nanonautX = CANVAS_WIDTH / 2;
 			var nanonautY = GROUND_Y - NANONAUT_HEIGHT;
+
+			var bush1Image = new Image();
+			bush1Image.src = 'bush1.png';
 
 			window.addEventListener('keydown', onKeyDown);
 			window.addEventListener('keyup', onKeyUp);
@@ -73,6 +78,8 @@
 			// UPDATING
 			function update() {
 				// update nanonaut
+				gameFrameCounter = gameFrameCounter + 1;
+
 				nanonautX = nanonautX + NANONAUT_X_SPEED;
 
 				if (spaceKeyIsPressed && !nanonautIsInTheAir) {
@@ -89,15 +96,21 @@
 					nanonautIsInTheAir = false;
 				}
 
-				// UPdate Animation.
-				nanonautFrameNr = nanonautFrameNr + 1;
-				if (nanonautFrameNr >= NANONAUT_NR_ANIMATION_FRAMES) {
-					nanonautFrameNr = 0;
+				// Update Animation.
+//				nanonautFrameNr = nanonautFrameNr + 1;
+//				if (nanonautFrameNr >= NANONAUT_NR_ANIMATION_FRAMES) {
+//					nanonautFrameNr = 0;
+//				}
+				if ((gameFrameCounter % NANONAUT_ANIMATION_SPEED) === 0) {
+					nanonautFrameNr - nanonautFrameNr + 1;
+					if (nanonautFrameNr >= NANONAUT_NR_ANIMATION_FRAMES) {
+						nanonautFrameNr = 0;
+					}
 				}
 
-				
 
 				// update camera
+
 				cameraX = nanonautX - 150;
 			}
 
@@ -115,6 +128,10 @@
 				// Draw the ground
 				c.fillStyle = 'ForestGreen';	
 				c.fillRect(0, GROUND_Y - 40, CANVAS_WIDTH, CANVAS_HEIGHT - GROUND_Y + 40);
+
+				// Draw bush
+				c.drawImage(bush1Image, 550, GROUND_Y - 100);
+				c.drawImage(bush1Image, 750, GROUND_Y - 90);
 
 				// Draw nanonaut.
 				//c.drawImage(nanonautImage, nanonautX - cameraX, nanonautY - cameraY);
