@@ -18,7 +18,7 @@
 			var BACKGROUND_WIDTH = 1000;
 			var NANONAUT_NR_FRAMES_PER_ROW = 5;
 			var NANONAUT_NR_ANIMATION_FRAMES = 7;
-			var NANONAUT_ANIMATION_SPEED = 3;
+			var NANONAUT_ANIMATION_SPEED = 6;
 
 			// SETUP
 			var nanonautYSpeed = 0;
@@ -28,7 +28,6 @@
 			var cameraX = 0;
 			var cameraY = 0;
 			var gameFrameCounter = 0;
-//			var bushXCoordinates = [550, 750, 1000, 1200];
 
 			var canvas = document.createElement('canvas');
 			var c = canvas.getContext('2d');
@@ -50,7 +49,7 @@
 			var bush2Image = new Image();
 			bush2Image.src = 'bush2.png';
 
-			var bushData = [{ x: 550, y:100, image: bush1Image}, {x: 750, y: 90, image: bush2Image}];
+			var bushData = generateBushes();
 
 			window.addEventListener('keydown', onKeyDown);
 			window.addEventListener('keyup', onKeyUp);
@@ -59,6 +58,12 @@
 
 			function start() {
 				window.requestAnimationFrame(mainLoop);
+			}
+
+			function generateBushes() {
+				var generatedBushData = [];
+				return generateBushData;
+
 			}
 
 			// MAIN LOOP
@@ -102,21 +107,24 @@
 				}
 
 				// Update Animation.
-//				nanonautFrameNr = nanonautFrameNr + 1;
-//				if (nanonautFrameNr >= NANONAUT_NR_ANIMATION_FRAMES) {
-//					nanonautFrameNr = 0;
-//				}
 				if ((gameFrameCounter % NANONAUT_ANIMATION_SPEED) === 0) {
-					nanonautFrameNr - nanonautFrameNr + 1;
+					nanonautFrameNr = nanonautFrameNr + 1;
 					if (nanonautFrameNr >= NANONAUT_NR_ANIMATION_FRAMES) {
 						nanonautFrameNr = 0;
 					}
 				}
 
-
 				// update camera
-
 				cameraX = nanonautX - 150;
+
+				// update bushes
+				for (var i=0; i<bushData.length; i++) {
+					if ((bushData[i].x - cameraX) < -CANVAS_WIDTH) {
+						bushData[i].x += (2 * CANVAS_WIDTH) + 150;
+					}
+				}
+
+
 			}
 
 			// DRAWING
@@ -139,15 +147,11 @@
 					c.drawImage(bushData[i].image, bushData[i].x - cameraX, GROUND_Y - bushData[i].y - cameraY);
 				}
 
-//				c.drawImage(bush1Image, 550, GROUND_Y - 100);
-//				c.drawImage(bush1Image, 750, GROUND_Y - 90);
-
 				// Draw nanonaut.
-				//c.drawImage(nanonautImage, nanonautX - cameraX, nanonautY - cameraY);
 				var nanonautSpriteSheetRow = Math.floor(nanonautFrameNr / NANONAUT_NR_FRAMES_PER_ROW);
 				var nanonautSpriteSheetColumn = nanonautFrameNr % NANONAUT_NR_FRAMES_PER_ROW;
-				var nanonautSpriteSheetX = nanonautSpriteSheetColumn + NANONAUT_WIDTH;
-				var nanonautSpriteSheetY = nanonautSpriteSheetRow + NANONAUT_HEIGHT;
+				var nanonautSpriteSheetX = nanonautSpriteSheetColumn * NANONAUT_WIDTH;
+				var nanonautSpriteSheetY = nanonautSpriteSheetRow * NANONAUT_HEIGHT;
 				c.drawImage(nanonautImage, nanonautSpriteSheetX, nanonautSpriteSheetY, NANONAUT_WIDTH, NANONAUT_HEIGHT, nanonautX - cameraX, nanonautY - cameraY, NANONAUT_WIDTH, NANONAUT_HEIGHT);
 			}
 		</script>
