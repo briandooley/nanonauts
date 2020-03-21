@@ -28,6 +28,7 @@
 			var MIN_DISTANCE_BETWEEN_ROBOTS = 400;
 			var MAX_DISTANCE_BETWEEN_ROBOTS = 1200;
 			var MAX_ACTIVE_ROBOTS = 3;
+			var SCREENSHAKE_RADIUS = 16;
 
 			// SETUP
 			var nanonautYSpeed = 0;
@@ -37,6 +38,7 @@
 			var cameraX = 0;
 			var cameraY = 0;
 			var gameFrameCounter = 0;
+			var screenshake = false;
 
 			var canvas = document.createElement('canvas');
 			var c = canvas.getContext('2d');
@@ -189,6 +191,7 @@
 			}
 
 			function updateRobots() {
+				var nanonautTouchedARobot = false;
 				for (var i=0; i<robotData.length; i++) {
 					if (doesNanonautOverlapRobot(
 						nanonautX + nanonautCollisionRectangle.xOffset,
@@ -201,8 +204,9 @@
 						robotCollisionRectangle.height
 					)) {
 						console.log('OUCH!!!!!!');
+						nanonautTouchedARobot = true;
 					}
-								
+
 					robotData[i].x -= ROBOT_X_SPEED;
 					if ((gameFrameCounter % ROBOT_ANIMATION_SPEED) === 0) {
 						robotData[i].frameNr = robotData[i].frameNr + 1;
@@ -235,6 +239,8 @@
 						frameNr: 0
 					})
 				}
+
+				return nanonautTouchedARobot;
 			}
 
 			function doesNanonautOverlapRobotAlongOneAxis(nanonautNearX, nanonautFarX, robotNearX, robotFarX) {
@@ -262,6 +268,14 @@
 
 			// DRAWING
 			function draw() {
+				// Shake screen
+				var shakenCameraX = cameraX;
+				var shakenCameraY = cameraY;
+				if (screenshake) {
+					shakenCameraX += (Math.random() - .5) * SCREENSHAKE_RADIUS;
+					shakenCameraY += (Math.random() - .5) * SCREENSHAKE_RADIUS;
+				}
+
 				// Draw the sky
 				c.fillStyle = 'LightSkyBlue';
 				c.fillRect(0, 0, CANVAS_WIDTH, GROUND_Y - 40);
@@ -276,8 +290,15 @@
 				c.fillRect(0, GROUND_Y - 40, CANVAS_WIDTH, CANVAS_HEIGHT - GROUND_Y + 40);
 
 				// Draw bushes
+//				for (var i=0; i<bushData.length; i++) {
+//				c.drawImage(bushData[i].image, bushData[i].x - cameraX, GROUND_Y - bushData[i].y - cameraY);
+//				}
 				for (var i=0; i<bushData.length; i++) {
-					c.drawImage(bushData[i].image, bushData[i].x - cameraX, GROUND_Y - bushData[i].y - cameraY);
+					c.drawImage(
+						bushData[i].image,
+						bushData[i].x - shakenCameraX,
+						GROUND_Y - bushData[i].y - shakenCameraY
+					);
 				}
 
 				// Draw the robots.
