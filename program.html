@@ -198,7 +198,10 @@
 				}
 
 				if (robotData.length < MAX_ACTIVE_ROBOTS) {
-					var lastRobotX = robotData[robotData.length - 1].x;
+					var lastRobotX = CANVAS_WIDTH;
+					if (robotData.length > 0) {
+						lastRobotX = robotData[robotData.length - 1].x;
+					}
 					var newRobotX = lastRobotX + MIN_DISTANCE_BETWEEN_ROBOTS + Math.random() *(MAX_DISTANCE_BETWEEN_ROBOTS - MIN_DISTANCE_BETWEEN_ROBOTS);
 					robotData.push({
 						x: newRobotX,
