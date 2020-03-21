@@ -21,6 +21,9 @@
 			var NANONAUT_ANIMATION_SPEED = 6;
 			var ROBOT_WIDTH = 141;
 			var ROBOT_HEIGHT = 139;
+			var ROBOT_ANIMATION_SPEED = 5
+			var ROBOT_ANIMATION_FRAMES = 9;
+			var ROBOT_X_SPEED = 4;
 
 			// SETUP
 			var nanonautYSpeed = 0;
@@ -167,8 +170,23 @@
 					}
 				}
 
+				// Update robots.
+				updateRobots();
 
 			}
+
+			function updateRobots() {
+				for (var i=0; i<robotData.length; i++) {
+					robotData[i].x -= ROBOT_X_SPEED;
+					if ((gameFrameCounter % ROBOT_ANIMATION_SPEED) === 0) {
+						robotData[i].frameNr = robotData[i].frameNr + 1;
+						if (robotData[i].frameNr >= ROBOT_ANIMATION_FRAMES) {
+							robotData[i].frameNr = 0;
+						}
+					}
+				}
+			}
+
 
 			// DRAWING
 			function draw() {
